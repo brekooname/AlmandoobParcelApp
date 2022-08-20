@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "772225370303",
+    "project_id": "al-mandoob-4508e",
+    "storage_bucket": "al-mandoob-4508e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772225370303:android:766ef5f3bd26164be4de0a",
+        "android_client_info": {
+          "package_name": "com.almandoob.almandoob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "772225370303-3em4sg2nqdq6alvelttj38s78d1s7cjl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDwXLo861si5w-UhHBTiLrfJ3-aIgXlN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "772225370303-3em4sg2nqdq6alvelttj38s78d1s7cjl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
