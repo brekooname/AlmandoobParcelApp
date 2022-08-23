@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -313,7 +314,7 @@ class _SigupScreenState extends State<SigupScreen> {
                         {
                           return "Password must be fill";
                         }
-                        else if(v.length<11)
+                        else if(v.length<6)
                         {
                           return "Password must be greater then to Six";
 
@@ -345,21 +346,26 @@ class _SigupScreenState extends State<SigupScreen> {
                   ),),
 
 
-                Container(
-                  margin: EdgeInsets.only(top: 30.h),
-                  alignment: Alignment.center,
-                  child: MaterialButton(
-                    onPressed: (){
-                      Get.find<SignupController>().submitButton();
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) =>Home()));
-                    },
-                    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10.0) ),
+                GetX<SignupController>(
+                  builder: (controller) => Container(
+                    margin: EdgeInsets.only(top: 30.h),
+                    alignment: Alignment.center,
+                    child: controller.isLoading.value?
+                    CupertinoActivityIndicator(): MaterialButton(
+                      onPressed: controller.isLoading.value?null: (){
+                        Get.find<SignupController>().submitButton();
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) =>Home()));
+                      },
+                      shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10.0) ),
 
-                    color: Color(0xff1e319d),
-                    child: Text("Sign Up",style: TextStyle(color: Colors.white),),
+                      color: Color(0xff1e319d),
+                      child: Text("Sign Up",style: TextStyle(color: Colors.white),),
+                    ),
                   ),
                 ),
+
+
 
 
               ],

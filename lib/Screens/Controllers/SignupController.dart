@@ -30,7 +30,7 @@ class SignupController extends GetxController
   }
 
   changShowPass2(){
-    showpass1.value=!showpass1.value;
+    showpass2.value=!showpass2.value;
   }
 
   submitButton() {
@@ -43,12 +43,23 @@ class SignupController extends GetxController
   inserData()async{
 
     Map<String,String> map=new Map();
+    //
+    // {
+    //   'first_name': map["fname"].toString(),
+    // 'email': map["email"].toString(),
+    // 'password': map["password"].toString(),
+    // 'password_confirmation': map["password"].toString(),
+    // 'type': 'rider',
+    // 'last_name': map["lname"].toString()
+    // }
 
-    map['fname']=firstnameTextCon.value.text;
-    map['lname']=firstnameTextCon.value.text;
-    map['email']=firstnameTextCon.value.text;
-    map['phone']=firstnameTextCon.value.text;
-    map['password']=firstnameTextCon.value.text;
+    map['first_name']=firstnameTextCon.value.text;
+    map['last_name']=lastnameTextCon.value.text;
+    map['email']=emailTextCon.value.text;
+    map['phone']=phoneTextCon.value.text;
+    map['password']=passwordTextCon.value.text;
+    map['password_confirmation']=confpasswordTextCon.value.text;
+    map['type']="rider";
 
     try{
 
@@ -68,7 +79,7 @@ class SignupController extends GetxController
     }
     finally{
       isLoading(false);
-      Get.snackbar("message", "Some Thing Wrong Try Again",snackPosition: SnackPosition.BOTTOM);
+      //Get.snackbar("message", "Some Thing Wrong Try Again",snackPosition: SnackPosition.BOTTOM);
 
     }
 

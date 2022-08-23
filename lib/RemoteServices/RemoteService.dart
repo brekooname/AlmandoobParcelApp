@@ -13,14 +13,16 @@ class RemoteService{
       'Accept': 'application/json'
     };
     var request = http.MultipartRequest('POST', Uri.parse('https://almandoob.app/api/v1/register'));
-    request.fields.addAll({
-      'first_name': map["fname"].toString(),
-      'email': map["email"].toString(),
-      'password': map["password"].toString(),
-      'password_confirmation': map["password"].toString(),
-      'type': 'rider',
-      'last_name': map["lname"].toString()
-    });
+    request.fields.addAll(map);
+
+    // request.fields.addAll({
+    //   'first_name': 'saeed',
+    //   'email': 'saeedcs93m18@gm.c',
+    //   'password': 'saeed123',
+    //   'password_confirmation': 'saeed123',
+    //   'type': 'rider',
+    //   'last_name': 'sikandar'
+    // });
 
     request.headers.addAll(headers);
 
@@ -28,12 +30,12 @@ class RemoteService{
     if (response.statusCode == 200) {
 
       final SignUpModel res = signUpModelFromJson(await response.stream.bytesToString());
-      print(await response.stream.bytesToString());
+  //    print(await response.stream.bytesToString()+"ll");
       return res;
 
     }
     else {
-      print(response.reasonPhrase);
+      print("${response.reasonPhrase} fdfdf");
       return SignUpModel(token: "", message: "");
     }
 
