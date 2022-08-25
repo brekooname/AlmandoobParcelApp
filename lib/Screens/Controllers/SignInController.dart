@@ -6,20 +6,15 @@ import 'package:saeed/Model/SignUpModel.dart';
 import 'package:saeed/RemoteServices/RemoteService.dart';
 import 'package:saeed/Screens/SignInScreen.dart';
 
-class SignupController extends GetxController
+class SignInController extends GetxController
 {
   var showpass1=true.obs;
 
-  var showpass2=true.obs;
   var formKey = GlobalKey<FormState>();
 
 
-  var firstnameTextCon=TextEditingController().obs;
-  var lastnameTextCon=TextEditingController().obs;
-  var emailTextCon=TextEditingController().obs;
-  var phoneTextCon=TextEditingController().obs;
+   var emailTextCon=TextEditingController().obs;
   var passwordTextCon=TextEditingController().obs;
-  var confpasswordTextCon=TextEditingController().obs;
 
 
   var signupModel= SignUpModel(message: "",success: false).obs;
@@ -30,9 +25,6 @@ class SignupController extends GetxController
     showpass1.value=!showpass1.value;
   }
 
-  changShowPass2(){
-    showpass2.value=!showpass2.value;
-  }
 
   submitButton() {
     if (formKey.currentState!.validate()) {
@@ -68,16 +60,13 @@ class SignupController extends GetxController
     // map['password_confirmation']=confpasswordTextCon.value.text;
     // map['type']="rider";
 
-    map['fname']=firstnameTextCon.value.text;
-    map['lname']=lastnameTextCon.value.text;
     map['email']=emailTextCon.value.text;
-    map['phone']=phoneTextCon.value.text;
     map['password']=passwordTextCon.value.text;
       try{
 
       isLoading(true);
 
-        await   RemoteService.insertRegisterData(map).then((value) {
+        await   RemoteService.signinUser(map).then((value) {
         if(value.success)
         {
           Get.snackbar("message", "Registration Successful",snackPosition: SnackPosition.BOTTOM);

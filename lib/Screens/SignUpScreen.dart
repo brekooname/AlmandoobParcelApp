@@ -18,16 +18,16 @@ class _SigupScreenState extends State<SigupScreen> {
 
 
   SignupController signupController=Get.put(SignupController());
+  var defaultColor=Color(0xff1e319d);
 
+  var htextTheme=TextStyle(color: Color(0xff1e319d),fontWeight: FontWeight.bold,fontSize: 30.sp);
 
   @override
   Widget build(BuildContext context) {
 
     ScreenUtil.init(context, designSize: const Size(360, 690));
 
-    var defaultColor=Color(0xff1e319d);
 
-    var htextTheme=TextStyle(color: Color(0xff1e319d),fontWeight: FontWeight.bold,fontSize: 30.sp);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

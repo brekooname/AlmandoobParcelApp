@@ -10,20 +10,20 @@ String signUpModelToJson(SignUpModel data) => json.encode(data.toJson());
 
 class SignUpModel {
   SignUpModel({
-   required this.token,
+   required this.success,
     required this.message,
   });
 
-  String token;
+  bool success;
   String message;
 
   factory SignUpModel.fromJson(Map<String, dynamic> json) => SignUpModel(
-    token: json["token"],
+    success: json["success"],
     message: json["message"],
   );
 
   Map<String, dynamic> toJson() => {
-    "token": token,
+    "success": success,
     "message": message,
   };
 }
