@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:saeed/Screens/Home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 import 'SignInScreen.dart';
@@ -13,14 +16,36 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3),
-            ()=>Navigator.pushReplacement(context,
-            MaterialPageRoute(builder:
-                (context) =>
-                    SiginScreen()
-            )
-        )
-    );
+    // Timer(Duration(seconds: 3),
+    //         ()=>getBoolValuesSF()
+    // );
+
+    getBoolValuesSF().then((value) {
+      print("sds");
+      Timer(Duration(seconds: 3), () {
+        if(value==true)
+        {
+          print("sssdds");
+
+          Get.off(()=>Home());
+        }
+        else
+        {
+          print("sdsssssss");
+
+          Get.off(()=>SiginScreen());
+
+        }
+      });
+    });
+  }
+
+ Future<bool> getBoolValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+
+    bool boolValue = prefs.getBool('isLogin')??false;
+    return boolValue;
   }
   @override
   Widget build(BuildContext context) {

@@ -218,12 +218,14 @@ class _SigupScreenState extends State<SigupScreen> {
                       }
                       return null;
                     },
+                    maxLength: 11,
                     decoration: InputDecoration(
                         hintText: "974XXXXXXXXXX",
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
+
                         disabledBorder: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 5.h,vertical: 8.w)
                     ),
@@ -273,7 +275,7 @@ class _SigupScreenState extends State<SigupScreen> {
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         suffixIcon:   IconButton(
-                          icon:controller.showpass1.value?Icon(Icons.visibility_off,color: defaultColor,):Icon(Icons.visibility,color: defaultColor,),
+                          icon:controller.showpass1.value?Icon(Icons.visibility,color: defaultColor,):Icon(Icons.visibility_off,color: defaultColor,),
                           onPressed: (){
                             Get.find<SignupController>().changShowPass1();
                           },
@@ -332,7 +334,7 @@ class _SigupScreenState extends State<SigupScreen> {
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         suffixIcon:   IconButton(
-                          icon:controller.showpass2.value?Icon(Icons.visibility_off,color: defaultColor,):Icon(Icons.visibility,color: defaultColor,),
+                          icon:controller.showpass2.value?Icon(Icons.visibility,color: defaultColor,):Icon(Icons.visibility_off,color: defaultColor,),
                           onPressed: (){
 
                             Get.find<SignupController>().changShowPass2();

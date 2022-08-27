@@ -7,7 +7,8 @@ import 'package:saeed/Screens/Dashboard.dart';
 import 'package:saeed/Screens/FromMap/FromMap.dart';
 import 'package:saeed/Screens/FromMap/ToMap.dart';
 import 'package:saeed/Screens/MainMap.dart';
-
+import 'package:saeed/Screens/SignInScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,11 +18,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   var bg_color=Color(0xff1e319d);
+  final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
   MapControl mapControlState=Get.put(MapControl());
 
+  String? fname,lname,email;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getValuesSF();
+  }
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, designSize: const Size(360, 690));
@@ -29,11 +38,107 @@ class _HomeState extends State<Home> {
     var htextTheme=TextStyle(color: Color(0xffffffff),fontWeight: FontWeight.bold,fontSize: 30.sp);
 
     return Scaffold(
+      key: _key, // Assign the key to Scaffold.
+
+      drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Container(
+              height: 180.h,
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+
+                  CircleAvatar(
+                    backgroundColor: bg_color,
+                    radius: 46,
+                    child: CircleAvatar(
+                      radius: 45,
+                      backgroundImage: AssetImage("assets/images/userLogo.png"),
+                    ),
+                  ),
+
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '${fname??"Fetching..."} ${lname??""}',style: TextStyle(color: bg_color,fontWeight: FontWeight.bold,fontSize: 18.sp),
+
+                      ),
+                      Text(
+                        '${email??""}',style: TextStyle(color: Colors.grey[600],fontWeight: FontWeight.bold,fontSize: 14.sp),
+                      ),
+
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+
+
+
+            Divider(
+              height: 1,
+              thickness: 1,
+            ),
+            ListTile(
+              leading: Icon(Icons.home_outlined,color: bg_color,),
+              title: Text('Home'),
+
+            ),
+            ListTile(
+              leading: Icon(Icons.card_giftcard_rounded,color: bg_color,),
+              title: Text('My Parcels '),
+
+            ),
+            ListTile(
+              leading: Icon(Icons.mode_edit_outline_outlined,color: bg_color,),
+              title: Text('Edit Profile'),
+
+            ),
+
+            ListTile(
+              leading: Icon(Icons.perm_contact_cal_outlined,color: bg_color,),
+              title: Text('Contact Us'),
+
+            ),
+            Divider(
+              height: 1,
+              thickness: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Other',
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout,color: bg_color,),
+              title: Text('SignOut'),
+              onTap: ()
+              async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setBool('isLogin', false);
+
+                Get.offAll(()=>{SiginScreen()});
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
+
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text("Al-Mandoob",style: TextStyle(color: Color(0xff1e319d),fontWeight: FontWeight.bold,fontSize: 18.sp),),
-        leading: IconButton(icon:  Icon(Icons.menu,color: bg_color,),onPressed: (){},),
+        leading: IconButton(icon:  Icon(Icons.menu,color: bg_color,),onPressed: (){
+          _key.currentState!.openDrawer();
+        },),
+
         actions: [
           Icon(Icons.info_outline,color: bg_color,)
         ],
@@ -183,5 +288,15 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+
+  Future<void> getValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+
+    fname  = prefs.getString('c_fname')??"";
+    lname  = prefs.getString('c_lname')??"";
+    email  = prefs.getString('c_email')??"";
   }
 }

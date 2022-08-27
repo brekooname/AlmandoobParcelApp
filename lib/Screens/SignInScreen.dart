@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:saeed/Screens/Controllers/SignupController.dart';
 import 'package:saeed/Screens/Home.dart';
 
 import 'Controllers/SignInController.dart';
@@ -29,6 +28,8 @@ class _SiginScreenState extends State<SiginScreen> {
     var htextTheme = TextStyle(
         color: Color(0xff1e319d), fontWeight: FontWeight.bold, fontSize: 30.sp);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -135,15 +136,15 @@ class _SiginScreenState extends State<SiginScreen> {
                       suffixIcon: IconButton(
                         icon: controller.showpass1.value
                             ? Icon(
-                                Icons.visibility_off,
+                                Icons.visibility,
                                 color: defaultColor,
                               )
                             : Icon(
-                                Icons.visibility,
+                                Icons.visibility_off,
                                 color: defaultColor,
                               ),
                         onPressed: () {
-                          Get.find<SignupController>().changShowPass1();
+                          Get.find<SignInController>().changShowPass1();
                         },
                       ),
                       errorBorder: InputBorder.none,
@@ -163,7 +164,7 @@ class _SiginScreenState extends State<SiginScreen> {
                           onPressed: controller.isLoading.value
                               ? null
                               : () {
-                                  Get.find<SignupController>().submitButton();
+                                  Get.find<SignInController>().submitButton();
                                   // Navigator.push(context,
                                   //     MaterialPageRoute(builder: (context) =>Home()));
                                 },
@@ -171,7 +172,7 @@ class _SiginScreenState extends State<SiginScreen> {
                               borderRadius: BorderRadius.circular(10.0)),
                           color: Color(0xff1e319d),
                           child: Text(
-                            "Sign Up",
+                            "Sign In",
                             style: TextStyle(color: Colors.white),
                           ),
                         ),

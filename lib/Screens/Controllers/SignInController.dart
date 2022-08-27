@@ -2,9 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:saeed/Model/SignInModel.dart';
 import 'package:saeed/Model/SignUpModel.dart';
 import 'package:saeed/RemoteServices/RemoteService.dart';
+import 'package:saeed/Screens/Home.dart';
 import 'package:saeed/Screens/SignInScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInController extends GetxController
 {
@@ -45,29 +48,7 @@ class SignInController extends GetxController
   inserData()async{
 
     Map<String,String> map=new Map();
-    //
-    // {
-    //   'first_name': map["fname"].toString(),
-    // 'email': map["email"].toString(),
-    // 'password': map["password"].toString(),
-    // 'password_confirmation': map["password"].toString(),
-    // 'type': 'rider',
-    // 'last_name': map["lname"].toString()
-    // }
 
-    // 'fname': 'Amir',
-    // 'lname': 'Raza',
-    // 'email': 'amir@gmail.com',
-    // 'phone': '03121245454',
-    // 'password': '123456'
-
-    // map['first_name']=firstnameTextCon.value.text;
-    // map['last_name']=lastnameTextCon.value.text;
-    // map['email']=emailTextCon.value.text;
-    // map['phone']=phoneTextCon.value.text;
-    // map['password']=passwordTextCon.value.text;
-    // map['password_confirmation']=confpasswordTextCon.value.text;
-    // map['type']="rider";
 
     map['email']=emailTextCon.value.text;
     map['password']=passwordTextCon.value.text;
@@ -75,15 +56,19 @@ class SignInController extends GetxController
 
       isLoading(true);
 
-        await   RemoteService.signinUser(map).then((value) {
+        await   RemoteService.signinUser(map).then((value) async {
         if(value.success)
         {
-          Get.snackbar("message", "Registration Successful",snackPosition: SnackPosition.BOTTOM);
+          await saveUserData(value.userData);
 
-          Get.off(SiginScreen());
+          Get.snackbar("message", "SignIn Successful",snackPosition: SnackPosition.BOTTOM);
+
+          Get.off(()=>Home());
+
+
         }
         else{
-          Get.snackbar("message", "${value.message}",snackPosition: SnackPosition.BOTTOM);
+         // Get.snackbar("message", "${value.message}",snackPosition: SnackPosition.BOTTOM);
 
         }
 
@@ -96,11 +81,24 @@ class SignInController extends GetxController
     }
 
   }
+  saveUserData(UserData userData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('c_id', userData.cId);
+    prefs.setString('c_fname', userData.cFname);
+    prefs.setString('c_lname', userData.cLname);
+    prefs.setString('c_email', userData.cEmail);
+    prefs.setString('c_phone', userData.cPhone);
+    prefs.setString('c_password', userData.cPassword);
+    prefs.setString('firebase_token', userData.firebaseToken);
+    prefs.setBool('isLogin', true);
+
+  }
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     print("die");
+
   }
 
 }
