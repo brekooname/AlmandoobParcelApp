@@ -11,7 +11,16 @@ class SignupController extends GetxController
   var showpass1=true.obs;
 
   var showpass2=true.obs;
-  var formKey = GlobalKey<FormState>();
+  var formKey ;
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+
+    formKey = GlobalKey<FormState>();
+  }
+
 
 
   var firstnameTextCon=TextEditingController().obs;
@@ -82,7 +91,7 @@ class SignupController extends GetxController
         {
           Get.snackbar("message", "Registration Successful",snackPosition: SnackPosition.BOTTOM);
 
-          Get.off(SiginScreen());
+          Get.off(()=>SiginScreen());
         }
         else{
           Get.snackbar("message", "${value.message}",snackPosition: SnackPosition.BOTTOM);

@@ -10,7 +10,16 @@ class SignInController extends GetxController
 {
   var showpass1=true.obs;
 
-  var formKey = GlobalKey<FormState>();
+  var SiginformKey ;
+
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    SiginformKey= GlobalKey<FormState>();
+
+  }
 
 
    var emailTextCon=TextEditingController().obs;
@@ -27,7 +36,7 @@ class SignInController extends GetxController
 
 
   submitButton() {
-    if (formKey.currentState!.validate()) {
+    if (SiginformKey.currentState!.validate()) {
 
       inserData();
     }

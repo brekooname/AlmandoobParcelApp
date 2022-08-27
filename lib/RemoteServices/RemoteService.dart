@@ -18,6 +18,7 @@ class RemoteService{
 
     request.headers.addAll(headers);
 
+    try{
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
 
@@ -34,12 +35,18 @@ class RemoteService{
       print("${response.reasonPhrase} fdfdf");
       return SignUpModel(message: '', success: false);
     }
+    }
+    catch(e){
+      print("${e} error");
+      return SignUpModel(message: 'Try Again ${e}', success: false);
+
+    }
 
   }
 
   static Future<SignInModel> signinUser(Map<String, String> map)async{
 
-    SignInModel res=SignInModel(success: false, message: "", userData: UserData(cId: "", cFname: "",
+    SignInModel res=SignInModel(success: false, message: "Try Again", userData: UserData(cId: "", cFname: "",
         cLname: "", cEmail: "", cPhone: "", cPassword: "", cDate: "", cTime: "", firebaseToken: ""));;
 
     var headers = {
@@ -50,33 +57,34 @@ class RemoteService{
 
     request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) {
+    try {
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        var getresponse = await response.stream.bytesToString();
 
 
-      var getresponse=await response.stream.bytesToString();
+        var data = json.decode(getresponse);
+
+        if (data['success']) {
+          res = signInModelFromJson(getresponse);
+        }
+        else {
+          Get.snackbar(
+              "message", data['message'], snackPosition: SnackPosition.BOTTOM);
+        }
 
 
-      var data=json.decode(getresponse);
-
-      if(data['success'])
-      {
-         res = signInModelFromJson(getresponse);
-
+        return res;
       }
-      else
-      {
-        Get.snackbar("message", data['message'],snackPosition: SnackPosition.BOTTOM);
+      else {
+        print("${response.reasonPhrase} fdfdf");
+        return res;
       }
-
-
-
-      return res;
-
     }
-    else {
-      print("${response.reasonPhrase} fdfdf");
+    catch(e){
+      print("${e} error");
       return res;
+
     }
 
   }

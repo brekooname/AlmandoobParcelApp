@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:saeed/Screens/Controllers/SignupController.dart';
 import 'package:saeed/Screens/Home.dart';
+import 'package:saeed/Screens/SignInScreen.dart';
 
 
 class SigupScreen extends StatefulWidget {
@@ -117,13 +118,13 @@ class _SigupScreenState extends State<SigupScreen> {
                   ),
                   child: TextFormField(
                     textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.emailAddress,
                     controller: signupController.lastnameTextCon.value,
                     validator: (v)
                     {
                       if(v!.isEmpty)
                       {
-                        return "First Name must be fill";
+                        return "Last Name must be fill";
                       }
 
                       return null;
@@ -204,7 +205,6 @@ class _SigupScreenState extends State<SigupScreen> {
                     keyboardType: TextInputType.phone,
                     controller: signupController.phoneTextCon.value,
 
-                    obscureText: true,
                     validator: (v)
                     {
                       if(v!.isEmpty)
@@ -366,6 +366,20 @@ class _SigupScreenState extends State<SigupScreen> {
                 ),
 
 
+                Container(
+                    margin: EdgeInsets.only(bottom: 20.h,top: 50.h),
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("Do you have already account ?"),
+                        GestureDetector(
+                            onTap: (){
+                              Get.off(()=>SiginScreen());
+                            },
+                            child: Text("Signin",style: TextStyle(color: defaultColor,fontWeight: FontWeight.bold),)),
+                      ],
+                    ))
 
 
               ],
