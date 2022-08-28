@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var bg_color=Color(0xff1e319d);
+  var default_color=Color(0xff8A1538);
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
   MapControl mapControlState=Get.put(MapControl());
@@ -40,107 +40,111 @@ class _HomeState extends State<Home> {
     return Scaffold(
       key: _key, // Assign the key to Scaffold.
 
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 180.h,
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+      drawer: SafeArea(
+        child: Drawer(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              Container(
+                height: 180.h,
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
 
-                  CircleAvatar(
-                    backgroundColor: bg_color,
-                    radius: 46,
-                    child: CircleAvatar(
-                      radius: 45,
-                      backgroundImage: AssetImage("assets/images/userLogo.png"),
+                    CircleAvatar(
+                      backgroundColor: default_color,
+                      radius: 46,
+                      child: CircleAvatar(
+                        radius: 45,
+                        backgroundImage: AssetImage("assets/images/userLogo.png"),
+                      ),
                     ),
-                  ),
 
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        '${fname??"Fetching..."} ${lname??""}',style: TextStyle(color: bg_color,fontWeight: FontWeight.bold,fontSize: 18.sp),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '${fname??"Fetching..."} ${lname??""}',style: TextStyle(color: default_color,fontWeight: FontWeight.bold,fontSize: 18.sp),
 
-                      ),
-                      Text(
-                        '${email??""}',style: TextStyle(color: Colors.grey[600],fontWeight: FontWeight.bold,fontSize: 14.sp),
-                      ),
+                        ),
+                        Text(
+                          '${email??""}',style: TextStyle(color: Colors.grey[600],fontWeight: FontWeight.bold,fontSize: 14.sp),
+                        ),
 
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
 
 
 
 
-            Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            ListTile(
-              leading: Icon(Icons.home_outlined,color: bg_color,),
-              title: Text('Home'),
-
-            ),
-            ListTile(
-              leading: Icon(Icons.card_giftcard_rounded,color: bg_color,),
-              title: Text('My Parcels '),
-
-            ),
-            ListTile(
-              leading: Icon(Icons.mode_edit_outline_outlined,color: bg_color,),
-              title: Text('Edit Profile'),
-
-            ),
-
-            ListTile(
-              leading: Icon(Icons.perm_contact_cal_outlined,color: bg_color,),
-              title: Text('Contact Us'),
-
-            ),
-            Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Other',
+              Divider(
+                height: 1,
+                thickness: 1,
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout,color: bg_color,),
-              title: Text('SignOut'),
-              onTap: ()
-              async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setBool('isLogin', false);
+              ListTile(
+                leading: Icon(Icons.home_outlined,color: default_color,),
+                title: Text('Home'),
 
-                Get.offAll(()=>{SiginScreen()});
-              },
-            ),
-          ],
+              ),
+              ListTile(
+                leading: Icon(Icons.card_giftcard_rounded,color: default_color,),
+                title: Text('My Parcels '),
+
+              ),
+              ListTile(
+                leading: Icon(Icons.mode_edit_outline_outlined,color: default_color,),
+                title: Text('Edit Profile'),
+
+              ),
+
+              ListTile(
+                leading: Icon(Icons.perm_contact_cal_outlined,color: default_color,),
+                title: Text('Contact Us'),
+
+              ),
+              Divider(
+                height: 1,
+                thickness: 1,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Other',
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.logout,color: default_color,),
+                title: Text('SignOut'),
+                onTap: ()
+                async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.setBool('isLogin', false).then((value){
+                    Get.off(SiginScreen());
+
+                  });
+
+                },
+              ),
+            ],
+          ),
         ),
       ),
       appBar: AppBar(
 
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text("Al-Mandoob",style: TextStyle(color: Color(0xff1e319d),fontWeight: FontWeight.bold,fontSize: 18.sp),),
-        leading: IconButton(icon:  Icon(Icons.menu,color: bg_color,),onPressed: (){
+        title: Text("Al-Mandoob",style: TextStyle(color: default_color,fontWeight: FontWeight.bold,fontSize: 18.sp),),
+        leading: IconButton(icon:  Icon(Icons.menu,color: default_color,),onPressed: (){
           _key.currentState!.openDrawer();
         },),
 
         actions: [
-          Icon(Icons.info_outline,color: bg_color,)
+          Icon(Icons.info_outline,color: default_color,)
         ],
       ),
       body: Container(
@@ -167,7 +171,7 @@ class _HomeState extends State<Home> {
             Container(
               margin: EdgeInsets.only(top: 1.h),
               alignment: Alignment.center,
-              child: Text("Deliver your Parcel",style: TextStyle(fontSize: 18.sp,color: Color(0xff1e319d)),),
+              child: Text("Deliver your Parcel",style: TextStyle(fontSize: 18.sp,color: default_color),),
             ),
 
             Container(
@@ -279,7 +283,7 @@ class _HomeState extends State<Home> {
                 }:null,
                 shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10.0) ),
 
-                color: Color(0xff1e319d),
+                color: default_color,
                 child: Text("Go",style: TextStyle(color: Colors.white),),
               )),
             ),

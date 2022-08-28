@@ -1,13 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lottie/lottie.dart' as lotie;
 import 'package:saeed/Screens/Controllers/MapControl.dart';
 import 'dart:math';
 
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter/scheduler.dart';
+
 
 
 
@@ -30,6 +34,8 @@ class _MainMapState extends State<MainMap> {
 
   String googleAPiKey = "AIzaSyCFiS3J95syNrmbl4JjQpWr8po9vXLzJvw";
 
+  var default_color=Color(0xff8A1538);
+
   Set<Marker> markers = Set(); //markers for google map
   Map<PolylineId, Polyline> polylines = {}; //polylines to show direction
 
@@ -39,12 +45,16 @@ class _MainMapState extends State<MainMap> {
   double distance = 0.0;
   MapControl mapControlState=Get.put(MapControl());
 
+  PanelController _pc = new PanelController();
 
   @override
   void initState() {
+
+
     print("${widget.pickLat} ${widget.pickLong}");
      startLocation = LatLng(widget.pickLat, widget.pickLong);
      endLocation = LatLng(widget.dropLat, widget.dropLong);
+
     markers.add(Marker( //add start location marker
       markerId: MarkerId(startLocation.toString()),
       position: startLocation, //position of marker
@@ -52,7 +62,8 @@ class _MainMapState extends State<MainMap> {
         title: 'Starting Point ',
         snippet: 'Start Marker',
       ),
-      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      icon: BitmapDescriptor.defaultMarker,
+      //Icon for Marker
     ));
 
     markers.add(Marker( //add distination location marker
@@ -62,7 +73,8 @@ class _MainMapState extends State<MainMap> {
         title: 'Destination Point ',
         snippet: 'Destination Marker',
       ),
-      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      icon: BitmapDescriptor.defaultMarker,
+      //Icon for Marker
     ));
 
    // getDirections(); //fetch direction polylines from Google API
@@ -112,7 +124,7 @@ class _MainMapState extends State<MainMap> {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
-      color: Color(0xff1e319d),
+      color: default_color,
       points: polylineCoordinates,
       width: 4,
     );
@@ -150,7 +162,27 @@ class _MainMapState extends State<MainMap> {
                 },
               ),
 
+             GetX(builder: (controller) => Visibility(
+                 visible: mapControlState.isLoading.value,
+                 child:  Container(
+                   width: double.infinity,
+                   height: double.infinity,
+                   alignment: Alignment.center,
+                   child:Column(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                       Text("Find Rider",style: TextStyle(color: default_color,fontSize: 24,fontWeight: FontWeight.bold,backgroundColor: Colors.white),),
+                       Container(
+                           width: 200.w,
+                           height: 200.h,
+                           child: lotie.Lottie.asset('assets/images/find_ride.json')),
+                     ],
+                   ) ,
+                 )),),
+
               SlidingUpPanel(
+                controller: _pc,
+
                 renderPanelSheet: false,
                 panel: _floatingPanel(),
                 collapsed: _floatingCollapsed(),
@@ -171,7 +203,7 @@ class _MainMapState extends State<MainMap> {
 
     return Container(
       decoration: BoxDecoration(
-        color:  Color(0xff1e319d),
+        color:  default_color,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
       ),
       margin: const EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 0.0),
@@ -230,11 +262,11 @@ class _MainMapState extends State<MainMap> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(icon: Icon(Icons.location_on_outlined,color: Colors.white,),
-                      tooltip: "${mapControlState.pickUpPlace.value.text}",
+                      tooltip: "${mapControlState.dropOffPlace.value.text}",
                       onPressed: (){},
                     ),
                     Text(
-                      "${mapControlState.pickUpPlace.value.text}",
+                      "${mapControlState.dropOffPlace.value.text}",
                       style: TextStyle(color: Colors.white),
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
@@ -276,105 +308,174 @@ class _MainMapState extends State<MainMap> {
       ),
       margin: const EdgeInsets.all(1.0),
       padding: EdgeInsets.all(5),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      child: Form(
+        key: mapControlState.OrderPlaceformKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
 
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.directions_bike_sharp,color: Color(0xff1e319d),size: 30,),
-              Text("Al-Mandoob",style: TextStyle(color:Color(0xff1e319d),fontWeight: FontWeight.bold,fontSize: 30),),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.directions_bike_sharp,color: default_color,size: 30,),
+                Text("Al-Mandoob",style: TextStyle(color:default_color,fontWeight: FontWeight.bold,fontSize: 30),),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
 
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            "Pickup Details",
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xff1e319d)),
-          ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Pickup Details",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: default_color),
+            ),
 
 
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            decoration: InputDecoration(
-              hintText: "House #, floor #, Street Name, etc",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5)
+            SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              textCapitalization: TextCapitalization.sentences,
+              controller: mapControlState.orderPickAddress.value,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                hintText: "House #, floor #, Street Name, etc",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5)
+                ),
+                prefixIcon: Icon(Icons.maps_home_work_outlined,color: Colors.grey,),
+                label: Text("Pickup Address detail")
               ),
-              prefixIcon: Icon(Icons.maps_home_work_outlined,color: Colors.grey,),
-              label: Text("Pickup Address detail")
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            decoration: InputDecoration(
-                hintText: "+965 XXXXXXXX",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5)
-                ),
-                prefixIcon: Icon(Icons.person,color: Colors.grey,),
-                label: Text("Sender Contact")
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            decoration: InputDecoration(
-                hintText: "Parcel Weight, Size , etc",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5)
-                ),
-                prefixIcon: Icon(Icons.shopping_bag_outlined,color: Colors.grey,),
-                label: Text("Parcel Detail")
-            ),
-          ),
+              validator: (v)
+              {
+                if(v!.isEmpty)
+                {
+                  return "Pickup Address detail must be fill";
+                }
 
-
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            alignment: Alignment.center,
-            child: MaterialButton(
-              minWidth: double.infinity,
-              height: 40,
-              onPressed: (){
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) =>Home()));
+                return null;
               },
-              shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10.0) ),
-
-              color: Color(0xff1e319d),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.directions_bike_sharp,color: Colors.white,size: 20,),
-                  SizedBox(width: 5,),
-                  Text("Call Rider",style: TextStyle(color: Colors.white),),
-                ],
-              ),
             ),
-          ),
+            SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              controller: mapControlState.senderContact.value,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.phone,
+              maxLength: 11,
+              decoration: InputDecoration(
+                  hintText: "+965 XXXXXXXX",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  prefixIcon: Icon(Icons.person,color: Colors.grey,),
+                  label: Text("Sender Contact")
+              ),
 
-        ],
+              validator: (v)
+              {
+                if(v!.isEmpty)
+                {
+                  return "Phone no must be fill";
+                }
+                else if(v.length<11)
+                {
+                  return "Phone no must be equal to 11";
+
+                }
+                return null;
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              textCapitalization: TextCapitalization.sentences,
+              controller: mapControlState.parcelDetail.value,
+
+              decoration: InputDecoration(
+                  hintText: "Parcel Weight, Size , etc",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  prefixIcon: Icon(Icons.shopping_bag_outlined,color: Colors.grey,),
+                  label: Text("Parcel Detail")
+              ),
+
+              validator: (v)
+              {
+                if(v!.isEmpty)
+                {
+                  return "Parcel Detail must be fill";
+                }
+
+                return null;
+              },
+            ),
+
+
+
+
+            GetX<MapControl>(
+              builder: (controller) =>  Container(
+                margin: EdgeInsets.only(top: 10),
+                alignment: Alignment.center,
+                child:controller.isLoading.value?
+                CupertinoActivityIndicator()
+                    : MaterialButton(
+                  minWidth: double.infinity,
+                  height: 40,
+                  onPressed: (){
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) =>Home()));
+
+                    Get.find<MapControl>().insertPlaceParcel().then((value) {
+                      _pc.close();
+
+
+                    });
+
+                  },
+                  shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10.0) ),
+
+                  color: default_color,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.directions_bike_sharp,color: Colors.white,size: 20,),
+                      SizedBox(width: 5,),
+                      Text("Call Rider",style: TextStyle(color: Colors.white),),
+                    ],
+                  ),
+                ),
+              ),
+            )
+           ,
+
+          ],
+        ),
       ),
     );
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+    mapController!.dispose();
+
+  }
   
 }

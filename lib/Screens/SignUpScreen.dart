@@ -16,15 +16,15 @@ class SigupScreen extends StatefulWidget {
 
 class _SigupScreenState extends State<SigupScreen> {
 
+  var default_color=Color(0xff8A1538);
 
 
   SignupController signupController=Get.put(SignupController());
-  var defaultColor=Color(0xff1e319d);
 
-  var htextTheme=TextStyle(color: Color(0xff1e319d),fontWeight: FontWeight.bold,fontSize: 30.sp);
 
   @override
   Widget build(BuildContext context) {
+    var htextTheme=TextStyle(color: default_color,fontWeight: FontWeight.bold,fontSize: 30.sp);
 
     ScreenUtil.init(context, designSize: const Size(360, 690));
 
@@ -88,7 +88,9 @@ class _SigupScreenState extends State<SigupScreen> {
                     }
                     return null;
                   },
-                  controller: signupController.firstnameTextCon.value,
+                    textCapitalization: TextCapitalization.sentences,
+
+                    controller: signupController.firstnameTextCon.value,
                   decoration: InputDecoration(
                       hintText: "First Name",
                       border: InputBorder.none,
@@ -129,6 +131,8 @@ class _SigupScreenState extends State<SigupScreen> {
 
                       return null;
                     },
+                    textCapitalization: TextCapitalization.sentences,
+
                     decoration: InputDecoration(
                         hintText: "Last Name",
                         border: InputBorder.none,
@@ -172,6 +176,7 @@ class _SigupScreenState extends State<SigupScreen> {
                       }
                       return null;
                     },
+
                     decoration: InputDecoration(
                         hintText: "Email",
                         border: InputBorder.none,
@@ -275,7 +280,7 @@ class _SigupScreenState extends State<SigupScreen> {
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         suffixIcon:   IconButton(
-                          icon:controller.showpass1.value?Icon(Icons.visibility,color: defaultColor,):Icon(Icons.visibility_off,color: defaultColor,),
+                          icon:controller.showpass1.value?Icon(Icons.visibility,color: default_color,):Icon(Icons.visibility_off,color: default_color,),
                           onPressed: (){
                             Get.find<SignupController>().changShowPass1();
                           },
@@ -334,7 +339,7 @@ class _SigupScreenState extends State<SigupScreen> {
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         suffixIcon:   IconButton(
-                          icon:controller.showpass2.value?Icon(Icons.visibility,color: defaultColor,):Icon(Icons.visibility_off,color: defaultColor,),
+                          icon:controller.showpass2.value?Icon(Icons.visibility,color: default_color,):Icon(Icons.visibility_off,color: default_color,),
                           onPressed: (){
 
                             Get.find<SignupController>().changShowPass2();
@@ -379,7 +384,7 @@ class _SigupScreenState extends State<SigupScreen> {
                             onTap: (){
                               Get.off(()=>SiginScreen());
                             },
-                            child: Text("Signin",style: TextStyle(color: defaultColor,fontWeight: FontWeight.bold),)),
+                            child: Text("Signin",style: TextStyle(color: default_color,fontWeight: FontWeight.bold),)),
                       ],
                     ))
 

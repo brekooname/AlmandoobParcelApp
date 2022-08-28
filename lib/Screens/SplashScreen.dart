@@ -51,13 +51,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context, designSize: const Size(360, 690));
 
-    var htextTheme=TextStyle(color: Color(0xffffffff),fontWeight: FontWeight.bold,fontSize: 30.sp);
+    var htextTheme=TextStyle(color: Color(0xff8A1538),fontWeight: FontWeight.bold,fontSize: 30.sp);
 
     return Scaffold(
       body: Container(
         width: double.infinity,
           height: double.infinity,
-          color: Color(0xff1e319d),
+          color: Color(0xff8A1538),
           alignment: Alignment.center,
           child: Column(
             mainAxisSize: MainAxisSize.min,

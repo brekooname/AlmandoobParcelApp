@@ -1,5 +1,7 @@
 
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:saeed/Model/SignInModel.dart';
@@ -27,6 +29,9 @@ class SignInController extends GetxController
 
    var emailTextCon=TextEditingController().obs;
   var passwordTextCon=TextEditingController().obs;
+
+
+
 
 
   var signupModel= SignUpModel(message: "",success: false).obs;
@@ -59,11 +64,13 @@ class SignInController extends GetxController
         await   RemoteService.signinUser(map).then((value) async {
         if(value.success)
         {
-          await saveUserData(value.userData);
+           saveUserData(value.userData).then((value) {
+             Get.snackbar("message", "SignIn Successful",snackPosition: SnackPosition.BOTTOM);
 
-          Get.snackbar("message", "SignIn Successful",snackPosition: SnackPosition.BOTTOM);
+             Get.off(()=>Home());
 
-          Get.off(()=>Home());
+           });
+
 
 
         }
@@ -81,7 +88,7 @@ class SignInController extends GetxController
     }
 
   }
-  saveUserData(UserData userData) async {
+ Future<void> saveUserData(UserData userData) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('c_id', userData.cId);
     prefs.setString('c_fname', userData.cFname);

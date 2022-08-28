@@ -15,10 +15,8 @@ class SiginScreen extends StatefulWidget {
 }
 
 class _SiginScreenState extends State<SiginScreen> {
-  var defaultColor = Color(0xff1e319d);
+  var default_color=Color(0xff8A1538);
 
-  var htextTheme = TextStyle(
-      color: Color(0xff1e319d), fontWeight: FontWeight.bold, fontSize: 30.sp);
   SignInController signinController = Get.put(SignInController());
 
   @override
@@ -26,7 +24,7 @@ class _SiginScreenState extends State<SiginScreen> {
     ScreenUtil.init(context, designSize: const Size(360, 690));
 
     var htextTheme = TextStyle(
-        color: Color(0xff1e319d), fontWeight: FontWeight.bold, fontSize: 30.sp);
+        color: default_color, fontWeight: FontWeight.bold, fontSize: 30.sp);
     return Scaffold(
       resizeToAvoidBottomInset: false,
 
@@ -137,11 +135,11 @@ class _SiginScreenState extends State<SiginScreen> {
                         icon: controller.showpass1.value
                             ? Icon(
                                 Icons.visibility,
-                                color: defaultColor,
+                                color: default_color,
                               )
                             : Icon(
                                 Icons.visibility_off,
-                                color: defaultColor,
+                                color: default_color,
                               ),
                         onPressed: () {
                           Get.find<SignInController>().changShowPass1();
@@ -170,7 +168,7 @@ class _SiginScreenState extends State<SiginScreen> {
                                 },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
-                          color: Color(0xff1e319d),
+                          color: default_color,
                           child: Text(
                             "Sign In",
                             style: TextStyle(color: Colors.white),
@@ -190,7 +188,7 @@ class _SiginScreenState extends State<SiginScreen> {
                             onTap: (){
                               Get.to(()=>SigupScreen());
                             },
-                            child: Text("Sign Up",style: TextStyle(color: defaultColor,fontWeight: FontWeight.bold),)),
+                            child: Text("Sign Up",style: TextStyle(color: default_color,fontWeight: FontWeight.bold),)),
                       ],
                     )),
               )
